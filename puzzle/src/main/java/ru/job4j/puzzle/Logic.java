@@ -93,7 +93,6 @@ public class Logic {
     public boolean isWin() {
         int[][] table = this.convert();
         boolean result = false;
-        for (int index = 0; index < table.length; index++) {
             if (monoHorizontal(table, index) || monoVertical(table, index)) {
                 result = true;
                 break;
