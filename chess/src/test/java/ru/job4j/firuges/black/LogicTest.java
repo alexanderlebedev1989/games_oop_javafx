@@ -5,7 +5,6 @@ import ru.job4j.chess.Logic;
 import ru.job4j.chess.firuges.Cell;
 import ru.job4j.chess.firuges.Figure;
 import ru.job4j.chess.firuges.black.BishopBlack;
-import ru.job4j.chess.firuges.black.KingBlack;
 import ru.job4j.chess.firuges.black.PawnBlack;
 import ru.job4j.chess.firuges.black.RookBlack;
 
@@ -14,22 +13,42 @@ import static org.junit.Assert.assertThat;
 
 public class LogicTest {
     @Test
-    public void whenMove1() {
+    public void whenMoveFalse() {
         Logic logic = new Logic();
-        Figure b = new BishopBlack(Cell.C1);
-        logic.add(b);
+        Figure bb = new BishopBlack(Cell.C1);
+        Figure two = new PawnBlack(Cell.E3);
+        logic.add(bb);
+        logic.add(two);
+        boolean rsl = logic.move(Cell.C1, Cell.G5);
+        assertThat(rsl, is(false));
+    }
+
+    @Test
+    public void whenMoveTrue() {
+        Logic logic = new Logic();
+        Figure bb = new BishopBlack(Cell.C1);
+        logic.add(bb);
         boolean rsl = logic.move(Cell.C1, Cell.G5);
         assertThat(rsl, is(true));
     }
 
-    @Test(expected = IllegalStateException.class)
-    public void whenMove2() {
+    @Test
+    public void isWayFree() {
         Logic logic = new Logic();
-        Figure b = new BishopBlack(Cell.C1);
-        Figure c = new RookBlack(Cell.E3);
-        logic.add(b);
-        logic.add(c);
-        logic.move(Cell.C1, Cell.G5);
+        Figure one = new BishopBlack(Cell.C1);
+        logic.add(one);
+        boolean result = logic.isWayFree(Cell.C1, Cell.G5);
+        assertThat(result, is(true));
+    }
+
+    @Test(expected = IllegalStateException.class)
+    public void isWayFreeException() {
+        Logic logic = new Logic();
+        Figure one = new BishopBlack(Cell.C1);
+        Figure two = new PawnBlack(Cell.E3);
+        logic.add(one);
+        logic.add(two);
+        logic.isWayFree(Cell.C1, Cell.G5);
     }
 }
 

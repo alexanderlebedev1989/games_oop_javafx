@@ -29,19 +29,19 @@ public class BishopBlack implements Figure {
         }
         int size = dest.x - source.x;
         Cell[] steps = new Cell[size];
-        int deltaX = source.x;
-        int deltaY = source.y;
+        int deltaX = Integer.compare(source.x, source.y);
+        int deltaY = Integer.compare(dest.x, dest.y);
         for (int index = 0; index < size; index++) {
-            deltaX = dest.x > deltaX ? ++deltaX : --deltaX;
-            deltaY = dest.y > deltaY ? ++deltaY : --deltaY;
-            steps[index] = Cell.findBy(deltaX, deltaY);
+            int x = source.x + deltaX * (index + 1);
+            int y = source.y + deltaY * (index + 1);
+            steps[index] = Cell.findBy(x, y);
         }
         return steps;
     }
 
     public boolean isDiagonal(Cell source, Cell dest) {
         boolean found = false;
-        if (source.x != dest.x && source.y != dest.y) {
+        if (Math.abs(dest.x - source.x) == Math.abs(dest.y - source.y)) {
             found = true;
         }
         return found;

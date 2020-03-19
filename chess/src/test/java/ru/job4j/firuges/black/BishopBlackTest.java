@@ -33,14 +33,14 @@ public class BishopBlackTest {
     @Test
     public void whenIsDiagonal() {
         BishopBlack bb = new BishopBlack(Cell.C1);
-        boolean steps = bb.isDiagonal(Cell.C1, Cell.C3);
-        assertThat(steps, is(false));
+        boolean steps = bb.isDiagonal(Cell.C1, Cell.G5);
+        assertThat(steps, is(true));
     }
 
     @Test(expected = IllegalStateException.class)
     public void whenBishopWay1() {
         BishopBlack bb = new BishopBlack(Cell.C1);
-        bb.way(Cell.C1, Cell.C3);
+        bb.way(Cell.C1, Cell.D3);
     }
 
 
