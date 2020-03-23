@@ -6,7 +6,6 @@ import ru.job4j.chess.firuges.Cell;
 import ru.job4j.chess.firuges.Figure;
 import ru.job4j.chess.firuges.black.BishopBlack;
 import ru.job4j.chess.firuges.black.PawnBlack;
-import ru.job4j.chess.firuges.black.RookBlack;
 
 import static org.hamcrest.core.Is.is;
 import static org.junit.Assert.assertThat;
@@ -37,7 +36,7 @@ public class LogicTest {
         Logic logic = new Logic();
         Figure one = new BishopBlack(Cell.C1);
         logic.add(one);
-        boolean result = logic.isWayFree(Cell.C1, Cell.G5);
+        boolean result = logic.isWayFree(new Cell[]{Cell.D2, Cell.E3, Cell.F4, Cell.G5});
         assertThat(result, is(true));
     }
 
@@ -48,7 +47,7 @@ public class LogicTest {
         Figure two = new PawnBlack(Cell.E3);
         logic.add(one);
         logic.add(two);
-        logic.isWayFree(Cell.C1, Cell.G5);
+        logic.isWayFree(new Cell[]{Cell.D2, Cell.E3, Cell.F4, Cell.G5});
     }
 }
 

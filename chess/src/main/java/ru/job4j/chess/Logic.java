@@ -24,35 +24,30 @@ public class Logic {
     public boolean move(Cell source, Cell dest) {
         boolean rst = false;
         int index = findBy(source);
-        if (index != -1) {
             try {
-                if (isWayFree(source, dest)) {
-                    this.figures[index] = this.figures[index].copy(dest);
-                    rst = true;
+                if (index != -1) {
+                    Cell[] steps = this.figures[index].way(source, dest);
+                    if (isWayFree(steps)) {
+                        this.figures[index] = this.figures[index].copy(dest);
+                        rst = true;
+                    }
                 }
-            } catch (IllegalStateException e) {
-                this.figures[index] = this.figures[index].copy(source);
+            } catch (Exception e) {
+                System.out.println(Arrays.toString(e.getStackTrace()));
+            }
+            return rst;
+    }
+
+    public boolean isWayFree(Cell[] way) {
+        boolean rst = true;
+        for (Cell cell : way) {
+            if (findBy(cell) != -1) {
+                rst = false;
+                break;
             }
         }
-            return rst;
-        }
-
-
-    public boolean isWayFree(Cell source, Cell dest) {
-        boolean rst = false;
-        int index = findBy(source);
-        if (index != -1) {
-            Cell[] steps = this.figures[index].way(source, dest);
-                for (index = 0; index < steps.length; index++) {
-                    if (figures[index] != null)  {
-                        for (Cell step : steps) {
-                            if (step.equals(figures[index].position())) {
-                                throw new IllegalStateException("A figure cannot walk like that");
-                            }
-                        }
-                    }
-                    rst = true;
-                }
+        if (!rst) {
+            throw new IllegalStateException("Way is not free");
         }
         return rst;
     }
