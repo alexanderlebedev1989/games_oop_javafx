@@ -7,7 +7,6 @@ import static org.junit.Assert.assertThat;
 
 @Ignore
 public class Logic3TTest {
-
     @Test
     public void whenHasXZeroHorizontalWinner() {
         Figure3T[][] table = {

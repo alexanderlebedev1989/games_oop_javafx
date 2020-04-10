@@ -3,10 +3,6 @@ package job4j.tictactoe;
 import java.util.function.Predicate;
 
 public class Logic3T {
-    /*
-    переменная класса
-    конструктор,который прнимает параметр в виде двухмерного массива
-     */
     private final Figure3T[][] table;
 
     public Logic3T(Figure3T[][] table) {
@@ -20,7 +16,7 @@ public class Logic3T {
             Figure3T cell = this.table[startX][startY];
             startX += deltaX;
             startY += deltaY;
-            if (!predicate.test(cell)) {// это правда, что в этом месте есть X?
+            if (!predicate.test(cell)) {
                 result = false;
                 break;
             }
