@@ -1,6 +1,9 @@
 package job4j.tictactoe;
 
+import java.util.Arrays;
+import java.util.List;
 import java.util.function.Predicate;
+import java.util.stream.Collectors;
 
 public class Logic3T {
     private final Figure3T[][] table;
@@ -25,38 +28,29 @@ public class Logic3T {
     }
 
     public boolean isWinnerX() {
-        return fillBy(Figure3T::hasMarkX, 0, 0, 0, 1) ||
-                fillBy(Figure3T::hasMarkX, 1, 0, 0, 1) ||
-                fillBy(Figure3T::hasMarkX, 2, 0, 0, 1) ||
-                fillBy(Figure3T::hasMarkX, 0, 0, 1, 0) ||
-                fillBy(Figure3T::hasMarkX, 0, 1, 1, 0) ||
-                fillBy(Figure3T::hasMarkX, 0, 2, 1, 0) ||
-                fillBy(Figure3T::hasMarkX, 0, 0, 1, 1) ||
-                fillBy(Figure3T::hasMarkX, this.table.length - 1, 0, -1, 1);
+        return isWin(Figure3T::hasMarkX);
     }
 
     public boolean isWinnerO() {
-        return fillBy(Figure3T::hasMarkO, 0, 0, 0, 1) ||
-                fillBy(Figure3T::hasMarkO, 1, 0, 0, 1) ||
-                fillBy(Figure3T::hasMarkO, 2, 0, 0, 1) ||
-                fillBy(Figure3T::hasMarkO, 0, 0, 1, 0) ||
-                fillBy(Figure3T::hasMarkO, 0, 1, 1, 0) ||
-                fillBy(Figure3T::hasMarkO, 0, 2, 1, 0) ||
-                fillBy(Figure3T::hasMarkO, 0, 0, 1, 1) ||
-                fillBy(Figure3T::hasMarkO, this.table.length - 1, 0, -1, 1);
+        return isWin(Figure3T::hasMarkO);
+    }
+
+    public boolean isWin(Predicate<Figure3T> winCondition) {
+        return  fillBy(winCondition, 0, 0, 0, 1) ||
+                fillBy(winCondition, 1, 0, 0, 1) ||
+                fillBy(winCondition, 2, 0, 0, 1) ||
+                fillBy(winCondition, 0, 0, 1, 0) ||
+                fillBy(winCondition, 0, 1, 1, 0) ||
+                fillBy(winCondition, 0, 2, 1, 0) ||
+                fillBy(winCondition, 0, 0, 1, 1) ||
+                fillBy(winCondition, this.table.length - 1, 0, -1, 1);
     }
 
     public boolean hasGap() {
         boolean result = false;
-        for (int i = 0; i != table.length; i++) {
-            for (int j = 0; j != table.length; j++) {
-                Figure3T cell = this.table[i][j];
-                if (!cell.hasMarkX() && !cell.hasMarkO()) {
-                    result = true;
-                    break;
-                }
-            }
-        }
-        return result;
+        Figure3T cell = Arrays.stream(table).flatMap(Arrays::stream).
+                filter(a -> !a.hasMarkX() && !a.hasMarkO()).findAny().orElse(null);
+       if (cell != null) result = true;
+       return result;
     }
 }
