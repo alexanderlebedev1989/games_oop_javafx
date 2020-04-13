@@ -1,9 +1,8 @@
 package job4j.tictactoe;
 
 import java.util.Arrays;
-import java.util.List;
 import java.util.function.Predicate;
-import java.util.stream.Collectors;
+
 
 public class Logic3T {
     private final Figure3T[][] table;
@@ -36,15 +35,19 @@ public class Logic3T {
     }
 
     public boolean isWin(Predicate<Figure3T> winCondition) {
-        return  fillBy(winCondition, 0, 0, 0, 1) ||
-                fillBy(winCondition, 1, 0, 0, 1) ||
-                fillBy(winCondition, 2, 0, 0, 1) ||
-                fillBy(winCondition, 0, 0, 1, 0) ||
-                fillBy(winCondition, 0, 1, 1, 0) ||
-                fillBy(winCondition, 0, 2, 1, 0) ||
-                fillBy(winCondition, 0, 0, 1, 1) ||
-                fillBy(winCondition, this.table.length - 1, 0, -1, 1);
+        boolean result = false;
+        for (int i = 0; i < this.table.length; i++) {
+            if (fillBy(winCondition, i, 0, 0, 1) ||
+                    fillBy(winCondition, 0, i, 1, 0) ||
+                    fillBy(winCondition, 0, 0, 1, 1) ||
+                    fillBy(winCondition, this.table.length - 1, 0, -1, 1)) {
+                result = true;
+                break;
+            }
+        }
+        return result;
     }
+
 
     public boolean hasGap() {
         boolean result = false;
